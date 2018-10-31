@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:RecurrenceExceptions"
+             x:Class="RecurrenceExceptions.MainPage"
+             xmlns:schedule="clr-namespace:Syncfusion.SfSchedule.XForms;assembly=Syncfusion.SfSchedule.XForms">
+	 <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+        <Button Text="AddExceptionDates" Command="{Binding AddCustomExceptionDates}"></Button>
+        <Button Text="RemoveExceptionDates" Command="{Binding RemoveCustomExceptionDates}"></Button>
+         <Button Text="AddExceptionAppointment" Command="{Binding AddCustomExceptionAppointment}"></Button>
+        <Button Text="RemoveExceptionAppointment" Command="{Binding RemoveCustomExceptionAppointment}"></Button>
+       <schedule:SfSchedule x:Name="schedule" ScheduleView="WeekView" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" DataSource="{Binding EventCollection}" MoveToDate="{Binding MoveDate}">
+            <schedule:SfSchedule.AppointmentMapping>
+        <schedule:ScheduleAppointmentMapping
+            SubjectMapping="EventName" 
+            ColorMapping="EventColor"
+            StartTimeMapping="From"
+            EndTimeMapping="To"
+                    RecurrenceIdMapping="RecurrenceID"
+                    RecurrenceRuleMapping="RecurrenceRule"
+                    ExceptionOccurrenceActualDateMapping="ActualDate"
+                    RecurrenceExceptionDatesMapping="RecurrenceExceptionDates">
+        </schedule:ScheduleAppointmentMapping>
+    </schedule:SfSchedule.AppointmentMapping>
+            </schedule:SfSchedule>
+        <StackLayout.BindingContext>
+             <local:CustomAppointmentModel/>
+        </StackLayout.BindingContext>
+    </StackLayout>
+</ContentPage>
