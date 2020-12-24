@@ -17,6 +17,7 @@
             StartTimeMapping="From"
             EndTimeMapping="To"
                     RecurrenceIdMapping="RecurrenceID"
+					IDMapping="ID"
                     RecurrenceRuleMapping="RecurrenceRule"
                     ExceptionOccurrenceActualDateMapping="ActualDate"
                     RecurrenceExceptionDatesMapping="RecurrenceExceptionDates">
