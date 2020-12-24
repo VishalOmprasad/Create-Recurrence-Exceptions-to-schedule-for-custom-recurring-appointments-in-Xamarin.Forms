@@ -26,6 +26,7 @@ namespace RecurrenceExceptions
             //Adding schedule appointment in schedule appointment collection 
             var recurrenceAppointment = new Meeting()
             {
+                ID = 1,
                 From = new DateTime(2017, 09, 01, 10, 0, 0),
                 To = new DateTime(2017, 09, 01, 12, 0, 0),
                 EventName = "Occurs Daily",
@@ -85,7 +86,7 @@ namespace RecurrenceExceptions
                 To = new DateTime(2017, 09, 07, 14, 0, 0),
                 EventName = "Meeting",
                 EventColor = Color.Red,
-                RecurrenceID = recurrenceAppointment,
+                RecurrenceID = (recurrenceAppointment as Meeting).ID,
                 ActualDate = exceptionDate
             };
 
@@ -125,6 +126,7 @@ namespace RecurrenceExceptions
         public string RecurrenceRule { get; set; }
         public DateTime ActualDate { get; set; }
         public object RecurrenceID { get; set; }
+        public object ID { get; set; }
         public ObservableCollection<DateTime> RecurrenceExceptionDates { get; set; } = new ObservableCollection<DateTime>();
         public event PropertyChangedEventHandler PropertyChanged;
     }
