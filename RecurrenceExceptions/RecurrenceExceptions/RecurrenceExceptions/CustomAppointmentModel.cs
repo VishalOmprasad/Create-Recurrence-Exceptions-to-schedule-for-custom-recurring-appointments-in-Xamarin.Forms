@@ -5,41 +5,51 @@ using Xamarin.Forms;
 
 namespace RecurrenceExceptions
 {
-    public class CustomAppointmentModel
+    public class CustomAppointmentModel : INotifyPropertyChanged
     {
-        public ObservableCollection<Meeting> EventCollection { get; set; } = new ObservableCollection<Meeting>();
+
+        private ObservableCollection<Meeting> meetings;
+        public event PropertyChangedEventHandler PropertyChanged;
         public DateTime MoveDate { get; set; } = new DateTime(2017, 09, 03, 09, 0, 0);
         public Command AddCustomExceptionDates { get; set; }
         public Command RemoveCustomExceptionDates { get; set; }
         public Command AddCustomExceptionAppointment { get; set; }
         public Command RemoveCustomExceptionAppointment { get; set; }
+        public ObservableCollection<Meeting> EventCollection
+        {
+            get
+            {
+                return this.meetings;
+            }
+            set
+            {
+                this.meetings = value;
+                this.RaiseOnPropertyChanged("EventCollection");
+            }
+        }
         public CustomAppointmentModel()
         {
+            this.EventCollection = new ObservableCollection<Meeting>();
             // Set the commands for Add/Remove the exception dates.
             this.SetUpCommands();
 
             // Create the new recurrence exception dates.
             var exceptionDate = new DateTime(2017, 09, 07);
-            var recExcepDate2 = new DateTime(2017, 09, 03);
-            var recExcepDate3 = new DateTime(2017, 09, 05);
 
             //Adding schedule appointment in schedule appointment collection 
             var recurrenceAppointment = new Meeting()
             {
-                ID = 1,
+                Id = 1,
                 From = new DateTime(2017, 09, 01, 10, 0, 0),
                 To = new DateTime(2017, 09, 01, 12, 0, 0),
                 EventName = "Occurs Daily",
-                EventColor = Color.Blue,
-                RecurrenceRule = "FREQ=DAILY;COUNT=20"
+                EventColor = Color.Blue
             };
-
+            recurrenceAppointment.RecurrenceRule = "FREQ=DAILY;COUNT=20";
             // Add RecuurenceExceptionDates to appointment.
             recurrenceAppointment.RecurrenceExceptionDates = new ObservableCollection<DateTime>()
             {
-               exceptionDate,
-                   recExcepDate2,
-                     recExcepDate3,
+               exceptionDate
             };
 
             //Adding schedule appointment in schedule appointment collection
@@ -82,11 +92,12 @@ namespace RecurrenceExceptions
             // Add duplicate appointment to the current recurrence series
             var exceptionAppointment = new Meeting()
             {
-                From = new DateTime(2017, 09, 07, 13, 0, 0),
+                Id = 2,
+                From = new DateTime(2017, 09, 07, 12, 0, 0),
                 To = new DateTime(2017, 09, 07, 14, 0, 0),
                 EventName = "Meeting",
                 EventColor = Color.Red,
-                RecurrenceID = (recurrenceAppointment as Meeting).ID,
+                RecurrenceID = 1,
                 ActualDate = exceptionDate
             };
 
@@ -112,22 +123,12 @@ namespace RecurrenceExceptions
             // Add recurrence exception dates.
             EventCollection[0].RecurrenceExceptionDates.Add(new DateTime(2017, 09, 04));
         }
-    }
-
-    /// <summary>
-    /// Custom class.
-    /// </summary>
-    public class Meeting : INotifyPropertyChanged
-    {
-        public string EventName { get; set; }
-        public DateTime From { get; set; }
-        public DateTime To { get; set; }
-        public Color EventColor { get; set; }
-        public string RecurrenceRule { get; set; }
-        public DateTime ActualDate { get; set; }
-        public object RecurrenceID { get; set; }
-        public object ID { get; set; }
-        public ObservableCollection<DateTime> RecurrenceExceptionDates { get; set; } = new ObservableCollection<DateTime>();
-        public event PropertyChangedEventHandler PropertyChanged;
+        private void RaiseOnPropertyChanged(string propertyName)
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }
+    
+
+  
