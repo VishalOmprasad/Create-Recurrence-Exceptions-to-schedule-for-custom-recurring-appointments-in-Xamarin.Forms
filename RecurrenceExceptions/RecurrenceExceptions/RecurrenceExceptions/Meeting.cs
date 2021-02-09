@@ -18,6 +18,5 @@ namespace RecurrenceExceptions
         public object RecurrenceID { get; set; }
         public object Id { get; set; }
         public ObservableCollection<DateTime> RecurrenceExceptionDates { get; set; } = new ObservableCollection<DateTime>();
-
     }
 }
